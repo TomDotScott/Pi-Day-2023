@@ -1,12 +1,14 @@
 ﻿#include "MonteCarloPi.h"
 
+#include <iostream>
+
 #include "Constants.h"
 
 MonteCarloPi::MonteCarloPi() :
 	m_rectangle(sf::Vector2f(constants::WINDOW_SIZE, constants::WINDOW_SIZE)),
 	m_circle(static_cast<float>(constants::WINDOW_SIZE) / 2.f, 80),
 	m_numPointsInsideCircle(0),
-	m_numPointsOutsideCircle(0)
+	m_totalPoints(0)
 {
 	// Set up rectangle
 	m_rectangle.setFillColor(sf::Color::Red);
@@ -36,14 +38,18 @@ void MonteCarloPi::Update()
 	};
 
 	const sf::Vector2f distance = circleCentre - randomPoint;
-	if (distance.x * distance.x + distance.y * distance.y < circleRadius)
+	if (distance.x * distance.x + distance.y * distance.y < circleRadius * circleRadius)
 	{
 		m_numPointsInsideCircle++;
 	}
-	else
-	{
-		m_numPointsOutsideCircle++;
-	}
+
+	m_totalPoints++;
+
+
+	// The ratio of the points inside the circle to the points outside the circle multiplied by 4 is the estimate for pi!
+	const float pi = static_cast<float>(m_numPointsInsideCircle) / static_cast<float>(m_totalPoints) * 4;
+
+	std::cout << "Points inside circle: " << m_numPointsInsideCircle << "\tTotal points: " << m_totalPoints << "\tpi = " << pi << std::endl;
 }
 
 void MonteCarloPi::Render(sf::RenderWindow& window) const

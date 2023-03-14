@@ -14,7 +14,7 @@ private:
 
 	std::vector<sf::Vector2f> m_points;
 	int m_numPointsInsideCircle;
-	int m_numPointsOutsideCircle;
+	int m_totalPoints;
 
 	static int RandomNumber(int min, int max);
 };
