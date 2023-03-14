@@ -1,13 +1,16 @@
 #include <SFML/Window.hpp>
 
 #include "Constants.h"
+#include "MonteCarloPi.h"
 
 
 int main()
 {
-	sf::Window window(sf::VideoMode(constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT), "Pi Day 2023");
+	sf::RenderWindow window(sf::VideoMode(constants::WINDOW_SIZE, constants::WINDOW_SIZE), "Pi Day 2023");
 
 	window.setFramerateLimit(constants::FPS);
+
+	MonteCarloPi piEstimator;
 
 	// run the program as long as the window is open
 	while (window.isOpen())
@@ -20,6 +23,12 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
+
+		piEstimator.Update();
+
+		window.clear(sf::Color::Black);
+		piEstimator.Render(window);
+		window.display();
 	}
 
 	return 0;
